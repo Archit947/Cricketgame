@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Game</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>  
+    <h1 class="h">BAT,BALL,STUMP GAME</h1> 
+    
+      <div class="button">
+
+        <button class="ele" 
+         onclick="
+        let computer=gender();
+        let result=getresult(computer,'Bat');
+        showresult('Bat',computer,result);
+        ">Bat</button>
+
+        <button class="ele"
+        onclick="
+        computer=gender();
+        result=getresult(computer,'Ball');
+        showresult('Ball',computer,result);
+        ">Ball</button>
+
+
+        <button class="ele"
+        onclick="
+        computer=gender();
+        result=getresult(computer,'Stump');   
+        showresult('Stump',computer,result);    
+        ">Stump</button>
+        <button class="ele" onclick="localStorage.clear()
+        resetScore();
+        ">Reset</button>
+    </div>
+    <script>
+      let scoreStr=localStorage.getItem('Score');
+      let score;
+      resetScore(scoreStr);
+        function resetScore(scoreStr){
+           score = scoreStr ? JSON.parse(scoreStr) : {
+            win: 0,
+            lose: 0,
+            draw: 0,
+        }; 
+        
+        score.displayScore = function(){
+          return`No of Matchs Win:${score.win}\nLost:${score.lose}\nDrow:${score.draw}`
+        };
+      }
+      
+
+      function gender(){
+        let ran = Math.random()*3;
+        if( ran>0 && ran<=1){
+          return 'Bat';
+        } else if(ran>1 && ran<=2){
+          return'Ball';
+        } else {
+          return'Stump'
+        }
+        
+      }
+      function getresult(usermove,computermove){
+        
+        if(usermove ==='Bat)'){
+          if(computermove==='ball'){
+           score.win++; 
+           return'You Won';
+          }else if(computermove==='Stump'){
+            score.lose++;
+            return'Computer Won';
+          }else{
+            score.draw++;
+            return'Draw';
+          }
+        }else if(usermove ==='Ball'){
+          if(computermove==='Bat'){
+            score.lose++;
+           return'Computer Won';
+          }else if(computermove==='Stump'){
+            score.win++; 
+           return'You Won';
+          }else{
+            score.draw++;
+           return'Draw';
+          }
+        }else{
+          if(computermove==='Bat'){
+            score.win++; 
+           return 'You Won';
+          }else if(computermove==='Ball'){
+            score.lose++;
+           return'Computer Won';
+          }else{
+            score.draw++;
+           return'Draw';
+          }
+        }
+      }
+      function showresult(usermove,computermove,result){
+        localStorage.setItem('Score',JSON.stringify(score));
+        alert(`Your choice is ${usermove}\nComputer choice is ${computermove}\n ${result}\n${score.displayScore()}`);
+      }
+     
+      
+    </script>
+</body>
